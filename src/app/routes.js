@@ -15,9 +15,43 @@ angular.module("MyBank", ["ngRoute"])
             templateUrl : "src/app/home/home.tpl.html"
         })
 
+        // Sign up
+        .when("/sign_up",
+        {
+            templateUrl : "src/app/authentication/sign_up/sign_up.tpl.html",
+            controller  : "SignUpController"
+        })
+
+        // Sign in
+        .when("/sign_in",
+        {
+            templateUrl : "src/app/authentication/sign_in/sign_in.tpl.html",
+            controller  : "SignInController"
+        })
+
         // redirect to home
         .otherwise(
         {
             redirectTo: "/"
         });
+}])
+
+.config(["$httpProvider", function($httpProvider)
+{
+    $httpProvider.interceptors.push(function($q, $location)
+    {
+        return {
+
+            responseError: function(response)
+            {
+                if(response.status === 401)
+                {
+                    $location.path("/sign_in");
+                }
+
+                return $q.reject(response);
+            }
+
+        };
+    });
 }]);
