@@ -3,7 +3,7 @@
 
 angular.module("MyBank")
 
-.factory("Auth", function($http, $q)
+.factory("Auth", function($http, $q, SERVICE_URL)
 {
     "use strict";
 
@@ -23,7 +23,7 @@ angular.module("MyBank")
             var deferred = $q.defer();
 
             $http
-                .post("http://localhost:8080/auth/sign_up", $.param(user))
+                .post(SERVICE_URL + "/auth/sign_up", $.param(user))
                 .success(function(response)
                 {
                     deferred.resolve(response);
@@ -47,7 +47,7 @@ angular.module("MyBank")
             var deferred = $q.defer();
 
             $http
-                .post("http://localhost:8080/auth/sign_in", $.param(user))
+                .post(SERVICE_URL + "/auth/sign_in", $.param(user))
                 .success(function(response)
                 {
                     deferred.resolve(response);
