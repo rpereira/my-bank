@@ -3,27 +3,25 @@
 
 angular.module("MyBank")
 
-.controller("LoginController", ["$scope", "$http", "$location", function($scope, $http, $location)
+.controller("SignInController", ["$scope", "$location", "Auth", function($scope, $location, Auth)
 {
-    $scope.login = function()
+    $scope.signIn = function()
     {
-        $http.post("/sign_in",
+        Auth.signIn(
         {
             username : $scope.user.name,
-            password : $scope.user.password,
-            remember : $scope.remember_me
+            password : $scope.user.password
         })
-        .success(function(user)
+        .then(function(response)
         {
-            // redirect to overview
-            $location.url("/overview");
-        })
-        .error(function(reason)
-        {
-            $scope.error_message = reason;
-
-            // redirect to home
-            $location.url('/');
+            if(response.hasOwnProperty("error"))
+            {
+                $scope.error = response.error;
+            }
+            else
+            {
+                $location.path("/dashboard");
+            }
         });
     };
 }]);
