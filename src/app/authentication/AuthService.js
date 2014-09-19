@@ -34,6 +34,30 @@ angular.module("MyBank")
                 });
 
             return deferred.promise;
+        },
+
+        /**
+         * Sign in.
+         *
+         * @param   {object}     user - User's name and password.
+         * @return  {Promise}    Returns a promise object.
+         */
+        signIn: function(user)
+        {
+            var deferred = $q.defer();
+
+            $http
+                .post("http://localhost:8080/auth/sign_in", $.param(user))
+                .success(function(response)
+                {
+                    deferred.resolve(response);
+                })
+                .error(function(reason)
+                {
+                    deferred.reject(reason);
+                });
+
+            return deferred.promise;
         }
     };
 });
