@@ -2,6 +2,7 @@
 /*global module, require */
 
 var signUp = require("../config/authentication.js").signUp;
+var signIn = require("../config/authentication.js").signIn;
 
 module.exports = function(app)
 {
@@ -20,7 +21,14 @@ module.exports = function(app)
     /**
      * Sign in
      */
-    app.post("/sign_in");
+    app.post("/auth/sign_in", function(req, res)
+    {
+        // needed for AngularJS
+        res.set("Access-Control-Allow-Credentials", true);
+        res.set("Access-Control-Allow-Origin", '*');
+
+        signIn(req.body, res);
+    });
 
     /**
      * Sign out

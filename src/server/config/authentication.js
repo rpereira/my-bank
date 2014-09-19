@@ -24,7 +24,7 @@ module.exports.signUp = function(req_body, res)
                 {
                     res.status(401).json({ message: "We couldn't fetch your request due to a database error:\n" + err });
                 }
-                else if(rows.affectedRows === 0) // user already exists
+                else if(rows.affectedRows === 0)    // user already exists
                 {
                     res.status(200).json({ error: "Someone already has that username. Try another?" });
                 }
@@ -42,9 +42,38 @@ module.exports.signUp = function(req_body, res)
 /**
  * sign in
  */
-module.exports.signIn = function()
+module.exports.signIn = function(req_body, res)
 {
-    connection.query();
+    var user_name = req_body.username;
+    var password  = req_body.password;
+
+    pool.getConnection(function(error, connection)
+    {
+        connection.query(
+            "SELECT * FROM users WHERE name = ?",
+            [user_name],
+            function(err, rows)
+            {
+                if(err)
+                {
+                    res.status(401).json({ message: "We couldn't fetch your request due to a database error:\n" + err });
+                }
+                else
+                {
+                    if(password !== rows[0].password)    // password does not match
+                    {
+                        res.status(200).json({ error: "The name or password you entered is incorrect." });
+                    }
+                    else
+                    {
+                        res.status(200).end();
+                    }
+                }
+
+                connection.release();
+            }
+        );
+    });
 };
 
 /**
