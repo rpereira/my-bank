@@ -1,23 +1,26 @@
-.form-signin
+/**
+ * Sign form
+ */
+.form-sign
 {
     max-width: 330px;
     margin: 0 auto;
     padding: 15px;
 }
 
-.form-signin .form-signin-heading,
-.form-signin .checkbox
+.form-sign .form-sign-heading,
+.form-sign .checkbox
 {
     margin-bottom: 10px;
 }
 
-.form-signin .checkbox
+.form-sign .checkbox
 {
     font-weight: normal;
     margin-left: 20px;
 }
 
-.form-signin .form-control
+.form-sign .form-control
 {
     position: relative;
     font-size: 16px;
@@ -28,15 +31,9 @@
     padding: 10px;
 }
 
-.form-signin .form-control:focus
+.form-sign .form-control:focus
 {
     z-index: 2;
-}
-
-.form-signin input[type="text"],
-.form-signin input[type="password"]
-{
-    margin-bottom: 10px;
 }
 
 .account-wall
