@@ -1,0 +1,16 @@
+{
+    "name": "my-bank",
+    "version" : "0.0.1",
+    "scripts" :
+    {
+        "start" : "node ./server"
+    },
+    "dependencies" :
+    {
+        "body-parser" : "^1.5.2",
+        "errorhandler" : "^1.1.1",
+        "express" : "^4.8.0",
+        "morgan" : "^1.2.2",
+        "mysql" : "*"
+    }
+}
