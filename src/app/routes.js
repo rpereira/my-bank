@@ -1,7 +1,7 @@
 /*jslint browser: true, devel: true, nomen: true, plusplus: true, vars: true, white: true */
 /*global angular*/
 
-angular.module("MyBank", ["ngRoute"])
+angular.module("MyBank", ["ngRoute", "ngResource"])
 
 .config(["$routeProvider", function($routeProvider)
 {
@@ -27,6 +27,23 @@ angular.module("MyBank", ["ngRoute"])
         {
             templateUrl : "src/app/authentication/sign_in/sign_in.tpl.html",
             controller  : "SignInController"
+        })
+
+        // Sign out
+        // TODO...
+
+        // Expenses
+        .when("/dashboard",
+        {
+            templateUrl : "src/app/dashboard/dashboard.tpl.html",
+            controller  : ""
+        })
+
+        // Expenses
+        .when("/lists/:type",
+        {
+            templateUrl : "src/app/rows/list.tpl.html",
+            controller  : "RowsController"
         })
 
         // redirect to home
