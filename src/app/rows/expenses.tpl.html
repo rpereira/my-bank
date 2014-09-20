@@ -1,0 +1,283 @@
+<h2 class="page-header">Expenses</h2>
+
+<!-- ./buttons form -->
+<form class="form-inline pull-right" role="form">
+    <div class="form-group">
+        <button class="btn btn-primary btn-circle btn-sm"
+                data-tooltip="New expense"
+                data-toggle="modal"
+                data-target="#modal_newRow">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-default btn-circle btn-sm"
+                data-ng-click="show_filters = !show_filters;"
+                data-ng-class=" { 'active' : show_filters }">
+            <span class="glyphicon glyphicon-filter"></span>
+        </button>
+    </div>
+    <div class="form-group has-feedback">
+        <span class="glyphicon glyphicon-search form-control-feedback search-icon"></span>
+        <input type="text" class="form-control search-input input-sm"
+               data-ng-model="search_text">
+    </div>
+</form>
+<!-- ./buttons form -->
+
+<br>
+<br>
+
+<!-- filters form -->
+<div class="alert alert-warning"
+     role="alert"
+     data-ng-show="show_filters">
+    <h4 class="page-header">Filter by:</h4>
+    <div class="form-group">
+        <div class="row">
+            <label class="col-md-12">Date range</label>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <span>Start date:</span>
+                <input type="date"
+                       class="form-control input-sm"
+                       data-ng-model="start_date_filter">
+            </div>
+
+             <div class="col-md-3">
+                <span>End date:</span>
+                <input type="date"
+                       class="form-control input-sm"
+                       data-ng-model="end_date_filter">
+            </div>
+
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Categories</label>
+        <select data-ng-model="category_filter"
+                data-ng-options="c for c in categories.expenses"
+                class="form-control input-sm">
+            <option value="">-- None --</option>
+        </select>
+    </div>
+</div>
+<!-- ./filters form -->
+
+
+<!-- rows table -->
+<table class="table table-striped table-hover">
+    <thead>
+        <th>#</th>
+        <th>
+            <a href data-ng-click="predicate = 'date'; reverse = !reverse">
+                Date
+                <span data-ng-show="predicate != 'date'">
+                    <i class="fa fa-sort"></i>
+                </span>
+                <span data-ng-show="predicate == 'date'">
+                    <i class="fa" data-ng-class="{ 'fa-sort-asc': !reverse, 'fa-sort-desc': reverse }"></i>
+                </span>
+            </a>
+        </th>
+        <th>
+            <a href data-ng-click="predicate = 'category'; reverse = !reverse">
+                Category
+                <span data-ng-show="predicate != 'category'">
+                    <i class="fa fa-sort"></i>
+                </span>
+                <span data-ng-show="predicate == 'category'">
+                    <i class="fa" data-ng-class="{ 'fa-sort-asc': !reverse, 'fa-sort-desc': reverse }"></i>
+                </span>
+            </a>
+        </th>
+        <th>
+            <a href data-ng-click="predicate = 'amount'; reverse = !reverse">
+                Amount (€)
+                <span data-ng-show="predicate != 'amount'">
+                    <i class="fa fa-sort"></i>
+                </span>
+                <span data-ng-show="predicate == 'amount'">
+                    <i class="fa" data-ng-class="{ 'fa-sort-asc': !reverse, 'fa-sort-desc': reverse }"></i>
+                </span>
+            </a>
+        </th>
+        <th>Description</th>
+        <th><!-- empty --></th>
+    </thead>
+
+    <tbody>
+        <tr data-ng-repeat="row in paged_rows | orderBy : predicate : reverse | filter : search_text | filter : category_filter"
+            href="#">
+            <td class="col-md-1">{{ (pagination.current_page - 1) * pagination.num_per_page + $index + 1 }}</td>
+            <td class="col-md-2">
+                <input type="date" class="form-control input-sm"
+                       data-ng-model="row.date"
+                       data-ng-if="row.edit" />
+                <span data-ng-if="!row.edit">{{ row.date | date: 'EEE dd/MMM/yyyy' }}</span>
+            </td>
+            <td class="col-md-2">
+                <span data-ng-if="!row.edit">{{ row.category }}</span>
+                <span class="nullable"
+                      data-ng-if="row.edit">
+                    <select data-ng-model="row.category"
+                            data-ng-options="c for c in categories.expenses"
+                            class="form-control input-sm">
+                    </select>
+                </span>
+            </td>
+            <td class="col-md-2">
+                <span data-ng-if="!row.edit">{{ row.amount }}</span>
+                <input type="number" class="form-control input-sm"
+                       data-ng-model="row.amount"
+                       data-ng-if="row.edit">
+            </td>
+            <td class="col-md-4">
+                <span data-ng-if="!row.edit">{{ row.description }}</span>
+                <input type="text" class="form-control input-sm"
+                       data-ng-model="row.description"
+                       data-ng-if="row.edit">
+            </td>
+            <td class="col-md-1 table-edit-col">
+                <!--<a href class="pull-right"
+                   data-ng-click="edit();">
+                    <i class="fa fa-pencil" data-ng-show="show_icon"></i> Edit
+                </a>-->
+                <div class="pull-right">
+                    <button class="btn btn-default btn-xs"
+                            data-ng-click="row.edit = true;"
+                            data-ng-if="!row.edit">Edit</button>
+                    <button class="btn btn-success btn-xs"
+                            data-ng-click="save(row);"
+                            data-ng-if="row.edit">Save</button>
+                    <button type="button" class="btn btn-danger btn-xs"
+                            data-ng-click="remove(row);"
+                            data-ng-if="row.edit">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </div>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!-- ./rows table -->
+
+
+<!-- table pagination -->
+<div class="col-sm-4 text-left table-footer">
+    Total of {{ rows.length }} entries
+</div>
+
+<div class="col-sm-4 text-center">
+    <pagination class="pagination-sm"
+                data-ng-model="pagination.current_page"
+                data-total-items="rows.length"
+                data-items-per-page="pagination.num_per_page"
+                data-max-size="pagination.max_size"
+                data-boundary-links="true"
+                previous-text="&lsaquo;"
+                next-text="&rsaquo;"
+                first-text="&laquo;"
+                last-text="&raquo;">
+    </pagination>
+</div>
+
+<div class="col-sm-4 text-right table-footer">
+    <div class="btn-group btn-group-xs">
+        <label class="btn btn-default" data-ng-model="pagination.num_per_page" data-btn-radio="10">10</label>
+        <label class="btn btn-default" data-ng-model="pagination.num_per_page" data-btn-radio="25">25</label>
+        <label class="btn btn-default" data-ng-model="pagination.num_per_page" data-btn-radio="50">50</label>
+        <label class="btn btn-default" data-ng-model="pagination.num_per_page" data-btn-radio="100">100</label>
+    </div>
+</div>
+<!-- ./table pagination -->
+
+
+<!-- new expense modal -->
+<div class="modal fade bs-example-modal-sm"
+     id="modal_newRow"
+     tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">New expense</h4>
+            </div>
+
+            <form class="modal-body"
+                  name="row_form"
+                  data-ng-submit="addRow();"
+                  novalidate>
+                <!-- date -->
+                <div class="form-group"
+                     data-ng-class="{ 'has-error' : row_form.date.$invalid && row_form.date.$pristine && submited }">
+                    <label>Choose date</label>
+                    <input type="date" class="form-control"
+                           name="date"
+                           data-ng-model="new_row.date"
+                           autofocus
+                           required>
+                    <p class="help-block"
+                       data-ng-show="row_form.date.$invalid && row_form.date.$pristine && submited">
+                        Date is required.
+                    </p>
+                </div>
+                <!-- /date -->
+
+                <!-- category -->
+                <div class="form-group"
+                     data-ng-class="{ 'has-error' : row_form.category.$invalid && row_form.category.$pristine && submited }">
+                    <label>Name</label>
+                    <span class="nullable">
+                        <select data-ng-model="new_row.category"
+                                data-ng-options="c for c in categories.expenses"
+                                class="form-control">
+                            <option value="">-- select category --</option>
+                        </select>
+                    </span>
+                    <p class="help-block"
+                       data-ng-show="row_form.category.$invalid && row_form.category.$pristine && submited">
+                        Category is required.
+                    </p>
+                </div>
+                <!-- /category -->
+
+                <!-- amount -->
+                <div class="form-group"
+                     data-ng-class="{ 'has-error' : row_form.amount.$invalid && row_form.amount.$pristine && submited }">
+                    <label>Amount (€)</label>
+                    <input type="number" class="form-control"
+                           name="amount"
+                           placeholder="Expense value..."
+                           data-ng-model="new_row.amount"
+                           required>
+                    <p class="help-block"
+                       data-ng-show="row_form.amount.$invalid && row_form.amount.$pristine && submited">
+                        Amount is required.
+                    </p>
+                </div>
+                <!-- /amount -->
+
+                <!-- description -->
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" rows="3"
+                              name="description"
+                              placeholder="Detailed description..."
+                              data-ng-model="new_row.description">
+                    </textarea>
+                </div>
+                <!-- description -->
+
+                <div class="form-group" style="text-align: right;">
+                    <button type="submit" class="btn btn-primary">Add
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /new expense modal -->
