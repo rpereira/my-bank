@@ -1,3 +1,77 @@
+/***/
+section
+{
+    margin-top: 50px;
+}
+
+.nav,
+.pagination,
+.carousel,
+.panel-title a
+{
+    cursor: pointer;
+}
+
+.form-inline
+{
+    margin-bottom: 5px;
+}
+
+.btn-circle
+{
+    width: 30px;
+    height: 30px;
+    padding: 6px 0;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.btn-circle:focus
+{
+    outline: none !important;
+}
+
+#user-picture
+{
+    border: 0;
+    -webkit-border-radius: 0;
+    height: 20px;
+    margin: 4px 0 0;
+    width: 20px;
+    margin-top: 0;
+}
+
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th
+{
+    background-color: #f5f5f5;
+    /*cursor: pointer;*/
+}
+
+.table-footer
+{
+    margin: 20px 0px;
+}
+
+.panel-title,
+.alert-title
+{
+    font-size: 18px;
+}
+
+hr.small
+{
+    max-width: 150px;
+    margin-top: 0;
+}
+
+.search-input
+{
+    border-radius: 20px;
+}
+/***/
+
 /**
  * Sign form
  */
