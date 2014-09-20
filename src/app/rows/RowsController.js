@@ -4,8 +4,8 @@
 angular.module("MyBank")
 
 .controller("RowsController",
-            ["$scope", "$location", "$routeParams", "Rows", "categories",
-            function($scope, $location, $routeParams, Rows, categories)
+            ["$scope", "$routeParams", "Rows", "categories",
+            function($scope, $routeParams, Rows, categories)
 {
     "use strict";
 
@@ -98,32 +98,4 @@ angular.module("MyBank")
     initialize();
     initNewRow();
 
-}])
-
-/**
- * Categories list for select box.
- */
-.constant("categories",
-{
-    expenses:
-    [
-        "General",
-        "Food",
-        "Education",
-        "Clothes",
-        "Rent",
-        "House",
-        "Insurances",
-        "Health",
-        "Travel",
-        "Fuel",
-        "Car",
-        "Energy/Water"
-    ],
-    incomes:
-    [
-        "Wages",
-        "Renting",
-        "Gifts"
-    ]
-});
+}]);
