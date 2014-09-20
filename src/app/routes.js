@@ -1,7 +1,7 @@
 /*jslint browser: true, devel: true, nomen: true, plusplus: true, vars: true, white: true */
 /*global angular*/
 
-angular.module("MyBank", ["ngRoute", "ngResource"])
+angular.module("MyBank", ["ngRoute", "ngResource", "ui.bootstrap"])
 
 .config(["$routeProvider", function($routeProvider)
 {
