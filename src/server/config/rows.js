@@ -6,7 +6,7 @@ var db_config  = require("./mysql.js");
 var pool       = mysql.createPool(db_config.connection);
 
 /**
- * Get rows
+ * Read rows.
  */
 module.exports.getRows = function(type, res)
 {
@@ -35,7 +35,7 @@ module.exports.getRows = function(type, res)
 };
 
 /**
- * Add row
+ * Create row.
  */
 module.exports.addRow = function(params, res)
 {
