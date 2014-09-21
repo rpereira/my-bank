@@ -1,4 +1,4 @@
-/*jslint browser: true, devel: true, nomen: true, plusplus: true, vars: true, white: true */
+/*jslint browser: true, devel: true, nomen: true, plusplus: true, vars: true, white: true, unused: false */
 /*global angular, $*/
 
 angular.module("MyBank")
