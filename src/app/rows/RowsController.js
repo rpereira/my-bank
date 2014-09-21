@@ -88,13 +88,13 @@ angular.module("MyBank")
     /**
      * Delete row.
      */
-    $scope.delete = function(row_id)
+    $scope.delete = function(row)
     {
-        Row.remove({ type: $routeParams.type, id: row_id })
+        Row.remove({ type: $routeParams.type, id: row.entry_id })
             .$promise.then(function()
             {
                 // remove row from scope
-                var index = $scope.rows.indexOf(row_id);
+                var index = $scope.rows.indexOf(row);
                 $scope.rows.splice(index, 1);
             });
     };
