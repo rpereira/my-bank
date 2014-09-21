@@ -1,10 +1,11 @@
 /*jslint browser: true, devel: true, nomen: true, plusplus: true, vars: true, white: true */
 /*global module, require */
 
-var signUp  = require("../config/authentication.js").signUp;
-var signIn  = require("../config/authentication.js").signIn;
-var getRows = require("../config/rows.js").getRows;
-var addRow  = require("../config/rows.js").addRow;
+var signUp    = require("../config/authentication.js").signUp;
+var signIn    = require("../config/authentication.js").signIn;
+var getRows   = require("../config/rows.js").getRows;
+var addRow    = require("../config/rows.js").addRow;
+var deleteRow = require("../config/rows.js").deleteRow;
 
 module.exports = function(app)
 {
@@ -13,10 +14,6 @@ module.exports = function(app)
      */
     app.post("/auth/sign_up", function(req, res)
     {
-        // needed for AngularJS
-        res.set("Access-Control-Allow-Credentials", true);
-        res.set("Access-Control-Allow-Origin", '*');
-
         signUp(req.body, res);
     });
 
@@ -25,10 +22,6 @@ module.exports = function(app)
      */
     app.post("/auth/sign_in", function(req, res)
     {
-        // needed for AngularJS
-        res.set("Access-Control-Allow-Credentials", true);
-        res.set("Access-Control-Allow-Origin", '*');
-
         signIn(req.body, res);
     });
 
@@ -43,10 +36,6 @@ module.exports = function(app)
      */
     app.get("/api/rows/:type", function(req, res)
     {
-        // needed for AngularJS
-        res.set("Access-Control-Allow-Credentials", true);
-        res.set("Access-Control-Allow-Origin", '*');
-
         getRows(req.params.type, res);
     });
 
@@ -55,11 +44,28 @@ module.exports = function(app)
      */
     app.post("/api/rows", function(req, res)
     {
-        // needed for AngularJS
-        res.set("Access-Control-Allow-Credentials", true);
-        res.set("Access-Control-Allow-Origin", '*');
-
         addRow(req.body, res);
+    });
+
+
+    app.options("/api/rows/:type/:id", function(req, res, next)
+    {
+        res.set(
+        {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+            "Access-Control-Allow-Methods": "POST, DELETE"
+        });
+
+        next();
+    });
+
+    /**
+     * Delete row
+     */
+    app.delete("/api/rows/:type/:id", function(req, res)
+    {
+        deleteRow(req.params, res);
     });
 };
 

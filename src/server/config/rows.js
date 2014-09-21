@@ -67,3 +67,34 @@ module.exports.addRow = function(params, res)
         );
     });
 };
+
+
+/**
+ * Delete row.
+ */
+module.exports.deleteRow = function(params, res)
+{
+    var type     = params.type;
+    var entry_id = params.id;
+
+    pool.getConnection(function(error, connection)
+    {
+        connection.query(
+            "DELETE FROM ?? WHERE entry_id = ?",
+            [type, entry_id],
+            function(err)
+            {
+                if(err)
+                {
+                    res.status(401).json({ message: "We couldn't fetch your request due to a database error:\n" + err });
+                }
+                else
+                {
+                    res.status(200).end();
+                }
+
+                connection.release();
+            }
+        );
+    });
+};
