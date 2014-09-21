@@ -3,10 +3,15 @@
 
 angular.module("MyBank")
 
-.factory("Rows", function($http, $resource, SERVICE_URL)
+.factory("Rows", function($resource, SERVICE_URL)
 {
-    // set headers
-    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-
     return $resource(SERVICE_URL + "/api/rows/:type/:row");
+})
+
+.factory("Row", function($resource, SERVICE_URL)
+{
+    return $resource(SERVICE_URL + "/api/rows/:type/:id", null,
+    {
+        'delete': { method: 'DELETE'}
+    });
 });
