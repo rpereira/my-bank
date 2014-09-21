@@ -4,8 +4,8 @@
 angular.module("MyBank")
 
 .controller("RowsController",
-            ["$scope", "$routeParams", "Rows", "categories",
-            function($scope, $routeParams, Rows, categories)
+            ["$scope", "$routeParams", "Rows", "Row", "categories",
+            function($scope, $routeParams, Rows, Row, categories)
 {
     "use strict";
 
@@ -37,21 +37,21 @@ angular.module("MyBank")
     }, true);
 
     /**
-     * Reset the form to add a new row.
+     * Reset the new row's form.
      */
     function initNewRow()
     {
         $scope.new_row =
         {
-            date        : null,
+            date        : new Date(),    // today
             category    : null,
-            amount      : null,
+            amount      : '',
             description : ''
         };
     }
 
     /**
-     * Get user rows.
+     * Read user rows.
      */
     function initialize()
     {
@@ -65,9 +65,9 @@ angular.module("MyBank")
     }
 
     /**
-     * Add row.
+     * Create row.
      */
-    $scope.addRow = function()
+    $scope.create = function()
     {
         Rows.save($.param({ type: $routeParams.type, row: $scope.new_row }))
             .$promise.then(function()
@@ -81,15 +81,22 @@ angular.module("MyBank")
     /**
      * Save row edition.
      */
-    $scope.save = function()
+    $scope.update = function()
     {
     };
 
     /**
-     * Save row edition.
+     * Delete row.
      */
-    $scope.remove = function()
+    $scope.delete = function(row_id)
     {
+        Row.remove({ type: $routeParams.type, id: row_id })
+            .$promise.then(function()
+            {
+                // remove row from scope
+                var index = $scope.rows.indexOf(row_id);
+                $scope.rows.splice(index, 1);
+            });
     };
 
     /**
