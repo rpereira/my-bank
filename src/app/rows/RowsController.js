@@ -43,7 +43,7 @@ angular.module("MyBank")
     {
         $scope.new_row =
         {
-            date        : new Date(),    // today
+            date        : new Date(),    // current day
             category    : null,
             amount      : '',
             description : ''
@@ -69,7 +69,10 @@ angular.module("MyBank")
      */
     $scope.create = function()
     {
-        Rows.save($.param({ type: $routeParams.type, row: $scope.new_row }))
+        // Format data
+        $scope.new_row.date = $scope.new_row.date.toISOString("%Y-%m-%d").slice(0, 10);
+
+        Rows.create({ type: $routeParams.type }, $.param($scope.new_row))
             .$promise.then(function()
             {
                 dismissModal("#modal_newRow");
@@ -81,8 +84,14 @@ angular.module("MyBank")
     /**
      * Save row edition.
      */
-    $scope.update = function()
+    $scope.update = function(row)
     {
+        Row.update({ type: $routeParams.type, id: row.entry_id }, $.param(row))
+           .$promise.then(function()
+           {
+                // row edit mode
+                row.edit = false;
+           });
     };
 
     /**
@@ -90,6 +99,11 @@ angular.module("MyBank")
      */
     $scope.delete = function(row)
     {
+        if(!confirm("Confirm delete"))
+        {
+            return;
+        }
+
         Row.remove({ type: $routeParams.type, id: row.entry_id })
             .$promise.then(function()
             {

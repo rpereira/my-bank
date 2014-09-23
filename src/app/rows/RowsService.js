@@ -5,13 +5,18 @@ angular.module("MyBank")
 
 .factory("Rows", function($resource, SERVICE_URL)
 {
-    return $resource(SERVICE_URL + "/api/rows/:type/:row");
+    return $resource(SERVICE_URL + "/api/rows/:type", null,
+    {
+        "query" : { method: "GET", isArray: true },
+        "create": { method: "POST" }
+    });
 })
 
 .factory("Row", function($resource, SERVICE_URL)
 {
     return $resource(SERVICE_URL + "/api/rows/:type/:id", null,
     {
-        'delete': { method: 'DELETE'}
+        "update": { method: "PUT" },
+        "delete": { method: "DELETE" }
     });
 });
