@@ -7,7 +7,7 @@ angular.module("MyBank")
 {
     return $resource(SERVICE_URL + "/api/rows/:type", null,
     {
-        "query" : { method: "GET", isArray: true },
+        "query" : { method: "GET", isArray: true, cache: true },
         "create": { method: "POST" }
     });
 })
