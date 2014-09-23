@@ -56,7 +56,7 @@ angular.module("MyBank", ["ngRoute", "ngResource", "ui.bootstrap"])
 .config(["$httpProvider", function($httpProvider)
 {
     $httpProvider.defaults.headers.put["Content-Type"]  =
-    $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8";
+    $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
     $httpProvider.interceptors.push(function($q, $location)
     {

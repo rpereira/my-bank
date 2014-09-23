@@ -7,9 +7,6 @@ angular.module("MyBank")
 {
     "use strict";
 
-    // set headers
-    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-
     return {
 
         /**
