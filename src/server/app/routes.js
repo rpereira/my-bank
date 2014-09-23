@@ -1,78 +1,24 @@
 /*jslint browser: true, devel: true, nomen: true, plusplus: true, vars: true, white: true */
 /*global module, require */
 
-var signUp    = require("../config/authentication.js").signUp;
-var signIn    = require("../config/authentication.js").signIn;
-var getRows   = require("../config/rows.js").getRows;
-var addRow    = require("../config/rows.js").addRow;
-var deleteRow = require("../config/rows.js").deleteRow;
+var express = require("express");
+var router  = express.Router();
 
-module.exports = function(app)
-{
-    /**
-     * Sign up
-     */
-    app.post("/auth/sign_up", function(req, res)
-    {
-        signUp(req.body, res);
-    });
-
-    /**
-     * Sign in
-     */
-    app.post("/auth/sign_in", function(req, res)
-    {
-        signIn(req.body, res);
-    });
-
-    /**
-     * Sign out
-     */
-    app.get("/sign_out");
-
-
-    /**
-     * Get rows
-     */
-    app.get("/api/rows/:type", function(req, res)
-    {
-        getRows(req.params.type, res);
-    });
-
-    /**
-     * Add row
-     */
-    app.post("/api/rows", function(req, res)
-    {
-        addRow(req.body, res);
-    });
-
-
-    app.options("/api/rows/:type/:id", function(req, res, next)
-    {
-        res.set(
-        {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": true,
-            "Access-Control-Allow-Methods": "POST, DELETE"
-        });
-
-        next();
-    });
-
-    /**
-     * Delete row
-     */
-    app.delete("/api/rows/:type/:id", function(req, res)
-    {
-        deleteRow(req.params, res);
-    });
-};
+var auth = require("../config/authentication.js");
+var rows = require("../config/rows.js");
 
 /**
- *
+ * Authentication.
  */
-function checkAuth(req, res, next)
-{
+router.post("/auth/sign_up", auth.signUp);
+router.post("/auth/sign_in", auth.signIn);
 
-}
+/**
+ * CRUD operations.
+ */
+router.get("/api/rows/:type", rows.getAll);
+router.post("/api/rows/:type", rows.create);
+router.put("/api/rows/:type/:id", rows.update);
+router.delete("/api/rows/:type/:id", rows.delete);
+
+module.exports = router;

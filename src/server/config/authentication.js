@@ -5,81 +5,80 @@ var mysql      = require("mysql");
 var db_config  = require("./mysql.js");
 var pool       = mysql.createPool(db_config.connection);
 
-/**
- * sign up
- */
-module.exports.signUp = function(req_body, res)
+var auth =
 {
-    var user_name = req_body.username;
-    var password  = req_body.password;
-
-    pool.getConnection(function(error, connection)
+    /**
+     * sign up
+     */
+    signUp: function(req, res)
     {
-        connection.query(
-            "INSERT INTO users (name, password) SELECT * FROM (SELECT ?, ?) AS tmp WHERE NOT EXISTS (SELECT name FROM users WHERE name=?) LIMIT 1",
-            [user_name, password, user_name],
-            function(err, rows)
-            {
-                if(err)
-                {
-                    res.status(401).json({ message: "We couldn't fetch your request due to a database error:\n" + err });
-                }
-                else if(rows.affectedRows === 0)    // user already exists
-                {
-                    res.status(200).json({ error: "Someone already has that username. Try another?" });
-                }
-                else
-                {
-                    res.status(200).end();
-                }
+        console.log(req.body)
+        var name      = req.body.username;
+        var password  = req.body.password;
 
-                connection.release();
-            }
-        );
-    });
-};
-
-/**
- * sign in
- */
-module.exports.signIn = function(req_body, res)
-{
-    var user_name = req_body.username;
-    var password  = req_body.password;
-
-    pool.getConnection(function(error, connection)
-    {
-        connection.query(
-            "SELECT * FROM users WHERE name = ?",
-            [user_name],
-            function(err, rows)
-            {
-                if(err)
+        pool.getConnection(function(error, connection)
+        {
+            connection.query(
+                "INSERT INTO users (name, password) SELECT * FROM (SELECT ?, ?) AS tmp WHERE NOT EXISTS (SELECT name FROM users WHERE name=?) LIMIT 1",
+                [name, password, name],
+                function(err, rows)
                 {
-                    res.status(401).json({ message: "We couldn't fetch your request due to a database error:\n" + err });
-                }
-                else
-                {
-                    if(password !== rows[0].password)    // password does not match
+                    if(err)
                     {
-                        res.status(200).json({ error: "The name or password you entered is incorrect." });
+                        res.status(401).json({ message: "We couldn't fetch your request due to a database error:\n" + err });
+                    }
+                    else if(rows.affectedRows === 0)    // user already exists
+                    {
+                        res.status(200).json({ error: "Someone already has that username. Try another?" });
                     }
                     else
                     {
                         res.status(200).end();
                     }
+
+                    connection.release();
                 }
+            );
+        });
+    },
 
-                connection.release();
-            }
-        );
-    });
+    /**
+     * sign in
+     */
+    signIn: function(req, res)
+    {
+        console.log(req.body)
+        var name      = req.body.username;
+        var password  = req.body.password;
+
+        pool.getConnection(function(error, connection)
+        {
+            connection.query(
+                "SELECT * FROM users WHERE name = ?",
+                [name],
+                function(err, rows)
+                {
+                    if(err)
+                    {
+                        res.status(401).json({ message: "We couldn't fetch your request due to a database error:\n" + err });
+                    }
+                    else
+                    {
+                        if(password !== rows[0].password)    // password does not match
+                        {
+                            res.status(200).json({ error: "The name or password you entered is incorrect." });
+                        }
+                        else
+                        {
+                            res.status(200).end();
+                        }
+                    }
+
+                    connection.release();
+                }
+            );
+        });
+    }
 };
 
-/**
- * sign out
- */
-module.exports.signOut = function()
-{
-    connection.query();
-};
+module.exports = auth;
