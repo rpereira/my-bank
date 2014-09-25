@@ -12,20 +12,20 @@ angular.module("MyBank", ["ngRoute", "ngResource", "ui.bootstrap"])
         // Home
         .when("/",
         {
-            templateUrl : "src/app/home/home.tpl.html"
+            templateUrl : "common/home/home.tpl.html"
         })
 
         // Sign up
         .when("/sign_up",
         {
-            templateUrl : "src/app/authentication/sign_up/sign_up.tpl.html",
+            templateUrl : "common/authentication/sign_up/sign_up.tpl.html",
             controller  : "SignUpController"
         })
 
         // Sign in
         .when("/sign_in",
         {
-            templateUrl : "src/app/authentication/sign_in/sign_in.tpl.html",
+            templateUrl : "common/authentication/sign_in/sign_in.tpl.html",
             controller  : "SignInController"
         })
 
@@ -35,14 +35,14 @@ angular.module("MyBank", ["ngRoute", "ngResource", "ui.bootstrap"])
         // Expenses
         .when("/dashboard",
         {
-            templateUrl : "src/app/dashboard/dashboard.tpl.html",
+            templateUrl : "common/dashboard/dashboard.tpl.html",
             controller  : ""
         })
 
         // Expenses
         .when("/lists/:type",
         {
-            templateUrl : "src/app/rows/list.tpl.html",
+            templateUrl : "common/rows/list.tpl.html",
             controller  : "RowsController"
         })
 
