@@ -72,7 +72,7 @@ angular.module("MyBank")
         // Format data
         $scope.new_row.date = $scope.new_row.date.toISOString("%Y-%m-%d").slice(0, 10);
 
-        Rows.create({ type: $routeParams.type }, $.param($scope.new_row))
+        Rows.create({ type: $routeParams.type }, $scope.new_row)
             .$promise.then(function()
             {
                 dismissModal("#modal_newRow");
@@ -86,7 +86,7 @@ angular.module("MyBank")
      */
     $scope.update = function(row)
     {
-        Row.update({ type: $routeParams.type, id: row.entry_id }, $.param(row))
+        Row.update({ type: $routeParams.type, id: row.entry_id }, row)
            .$promise.then(function()
            {
                 // row edit mode
