@@ -2,20 +2,81 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>app</title>
+    <base href="/" />
+    <title>MyBank</title>
 
     <!-- WinJS references -->
     <!-- At runtime, ui-themed.css resolves to ui-themed.light.css or ui-themed.dark.css
     based on the user’s theme setting. This is part of the MRT resource loading functionality. -->
-    <link href="/css/ui-themed.css" rel="stylesheet" />
     <script src="//Microsoft.Phone.WinJS.2.1/js/base.js"></script>
     <script src="//Microsoft.Phone.WinJS.2.1/js/ui.js"></script>
 
     <!-- app references -->
-    <link href="/css/default.css" rel="stylesheet" />
     <script src="/js/default.js"></script>
+
+    <!-- JQuery -->
+    <script src="Scripts/jquery-w8-1.8.2.min.js"></script>
+    <script type="text/javascript">
+        jQuery.isUnsafe = true;
+    </script>
+
+    <!-- angular -->
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular-touch.min.js"></script>
+    <script src="Scripts/angular-route.min.js"></script>
+    <script src="Scripts/angular-resource.min.js"></script>
+
+    <!-- Mobile Angular UI -->
+    <link rel="stylesheet" href="public/css/mobile-angular-ui-base.min.css" />
+    <script src="Scripts/mobile-angular-ui.min.js"></script>
+
+    <!-- app -->
+    <script src="js/routes.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- controllers -->
+    <script src="js/rows/RowsController.js"></script>
+
+
 </head>
-<body class="phone">
-    <p>Content goes here</p>
+<body class="phone" ng-app="MyBank">
+
+    <!-- Sidebars -->
+    <div ng-include="'js/sidebars/sidebar-left.tpl.html'" class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="mainSidebar"></div>
+
+    <div class="app">
+
+        <!-- Navbars -->
+        <div class="navbar navbar-app navbar-absolute-top">
+
+            <div class="navbar-brand navbar-brand-center" yield-to="title">
+                <span>My Bank</span>
+            </div>
+
+            <div class="btn-group pull-left">
+                <div ng-click="toggle('mainSidebar')" class="btn btn-navbar sidebar-toggle">
+                    <i class="fa fa-bars"></i> Menu
+                </div>
+            </div>
+
+            <div class="btn-group pull-right" yield-to="navbarAction">
+                <div class="btn btn-navbar">
+                    <i class="fa fa-plus"></i> New
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar navbar-app navbar-absolute-bottom">
+            <div class="btn-group justified">
+                <a href="#/" class="btn btn-navbar btn-icon-only"><i class="fa fa-home fa-navbar"></i></a>
+                <a href="#/lists/expenses" class="btn btn-navbar btn-icon-only"><i class="fa fa-list fa-navbar"></i></a>
+            </div>
+        </div>
+
+        <div class="app-body">
+            <ng-view class="app-content"></ng-view>
+        </div>
+    </div>
+
 </body>
 </html>
