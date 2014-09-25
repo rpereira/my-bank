@@ -1,1 +1,8 @@
-/src/server/node_modules
+/server/node_modules
+/app/WindowsPhone/app/app.jsproj.user
+/app/WindowsPhone/app/app.sln
+/app/WindowsPhone/app/app.jsproj
+/app/WindowsPhone/app/app.v12.suo
+/app/WindowsPhone/app/images/
+/app/WindowsPhone/app/bld/
+/app/WindowsPhone/app/bin/
