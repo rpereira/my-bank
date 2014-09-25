@@ -6,3 +6,6 @@
 /app/WindowsPhone/app/images/
 /app/WindowsPhone/app/bld/
 /app/WindowsPhone/app/bin/
+/app/WindowsPhone/app/Scripts/
+/app/WindowsPhone/app/packages/
+/app/WindowsPhone/app/packages.config
